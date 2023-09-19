@@ -1,26 +1,37 @@
 import './App.css';
 
-import { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Suspense, useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Loading } from './components';
+import routes from './routes';
 
-const Login = lazy(() => import ('./pages/Authentication/Login'));
-const Register = lazy(() => import ('./pages/Authentication/Register'));
-const RecoveryPassword = lazy(() => import ('./pages/Authentication/RecoveryPassword'));
-const Home = lazy(() => import ('./pages/Internal/Home'));
-const NotFound = lazy(() => import ('./pages/NotFound'));
+
+const routesWithoutMenu = ['/task', '/login', '/register', '/recovery-password'];
+const logoutRoutes = ['/login', '/register', '/recovery-password'];
 
 function App() {
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+
   return <Router>
     <Suspense fallback={<Loading/>}>
       <Routes>
-        <Route exact path='/' element={<Home titulo="Home" valor2={"valor2"}/>} />
-        <Route exact path='/login' element={<Login />} />
-        <Route exact path='/register' element={<Register />} />
-        <Route exact path='/recovery-password' element={<RecoveryPassword />} />
-        <Route path='*' element={<NotFound />} />
+        {
+          routes.map((route, idx) => (
+            <Route key={`${idx}_rotas`} exact path={route.path} element={<route.element logoutRoutes={logoutRoutes} setCurrentPath={setCurrentPath} />} />
+          ))
+        }
       </Routes>
     </Suspense>
+    <br/>
+    { !routesWithoutMenu.includes(currentPath) ? 
+        routes.map((route, idx) => {
+          if (route.tab) {
+            return <Link key={`${idx}_menu`} to={route.path}>{route.title}</Link>
+          }
+
+          return null;
+        }) : null
+    }
   </Router>
 }
 

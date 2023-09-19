@@ -1,7 +1,18 @@
 import { Button, TextField } from "../../components"
 import { useState } from "react";
 
-const Login = () => {
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { login, verifyLogin } from "../../utils/auth";
+
+
+const Login = ({ setCurrentPath, logoutRoutes }) => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        setCurrentPath(window.location.pathname);
+        verifyLogin(logoutRoutes, window.location.pathname, navigate);
+    }, [])
 
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
@@ -9,6 +20,8 @@ const Login = () => {
     function entrarNoApp() {
         console.log(email);
         console.log(senha);
+
+        login({email, senha}, navigate);
     }
 
     return <>
@@ -18,7 +31,7 @@ const Login = () => {
         <TextField label={"Senha"} value={senha} type={"password"} onChange={(e) => {
             setSenha(e.target.value);
         }}/>
-        <Button label={"Entrar"} onClick={entrarNoApp} variant={"text"}/>
+        <Button label={"Entrar"} onClick={entrarNoApp}/>
     </>
 };
 
