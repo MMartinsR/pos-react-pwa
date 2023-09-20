@@ -1,9 +1,10 @@
 import { Button, TextField } from "../../components"
-import { useState } from "react";
+import { login, verifyLogin } from "../../utils/auth";
 
+import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { login, verifyLogin } from "../../utils/auth";
+import { Box } from '@mui/material';
 
 
 const Login = ({ setCurrentPath, logoutRoutes }) => {
@@ -25,13 +26,46 @@ const Login = ({ setCurrentPath, logoutRoutes }) => {
     }
 
     return <>
-        <TextField label={"Email"} value={email} type={"email"} onChange={(e) => {
-            setEmail(e.target.value);
-        }}/>
-        <TextField label={"Senha"} value={senha} type={"password"} onChange={(e) => {
-            setSenha(e.target.value);
-        }}/>
-        <Button label={"Entrar"} onClick={entrarNoApp}/>
+        <Box
+            component="div"
+            sx={{
+            '& > :not(style)': { m: 1, width: '25ch' },
+            }}
+            noValidate ="true"
+            autoComplete="off"
+        >
+                <TextField variant={"filled"} fullWidth={true} label={"Email"} value={email} type={"email"} onChange={(e) => {
+                setEmail(e.target.value);
+                }}/>
+        </Box>
+
+        <Box
+            component="div"
+            sx={{
+            '& > :not(style)': { m: 1, width: '25ch' },
+            }}
+            noValidate ="true"
+            autoComplete="off"
+        >
+            <TextField variant={"filled"} fullWidth={true} label={"Senha"} value={senha} type={"password"} onChange={(e) => {
+                setSenha(e.target.value);
+            }}/>
+        </Box>
+        
+        <Box
+            component="div"
+            sx={{
+            '& > :not(style)': { m: 1, width: '25ch' },
+            }}
+            noValidate ="true"
+            autoComplete="off"
+        >
+            <Button 
+                fullWidth={true}
+                label={"Entrar"}
+                onClick={entrarNoApp}/>
+        </Box>
+
     </>
 };
 

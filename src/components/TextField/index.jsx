@@ -1,12 +1,25 @@
-const TextField = ({ label, value, onChange, type }) => {
-    return <>
-        <label>{label}: </label>
-        <input type={type} value={value} onChange={onChange}/>
-    </>
+import { TextField } from '@mui/material';
+
+const TextFieldComponent = ({ noValidate, style, autoComplete, label, variant, type, ...rest }) => {
+    return <TextField
+                style={{
+                    width: rest.fullWidth ? 'calc(100% - 16px)' : 'auto',
+                    ...style
+                }}
+                {...rest}
+                label={label} 
+                variant={variant}
+                type={type} 
+            />
+
 };
 
-TextField.defaultProps = {
-    type: "text"
+TextFieldComponent.defaultProps = {
+    style: {},
+    variant: "outlined", 
+    type: "text",
+    autoComplete: "on",
+    noValidate: true
 }
 
-export default TextField;
+export default TextFieldComponent;
