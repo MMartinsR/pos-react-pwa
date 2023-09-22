@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { verifyLogin } from "../../utils/auth";
+import { TopMenu } from "../../components";
 
 const Profile = ({ setCurrentPath, logoutRoutes }) => {
     const navigate = useNavigate();
@@ -9,7 +10,9 @@ const Profile = ({ setCurrentPath, logoutRoutes }) => {
         setCurrentPath(window.location.pathname);
         verifyLogin(logoutRoutes, window.location.pathname, navigate);
     }, [])
-    return 'Profile';
+    return <>
+        <TopMenu hasMenu={true} hasArrowBack={false} hasImage={true}/>
+    </>;
 }
 
 export default Profile;
