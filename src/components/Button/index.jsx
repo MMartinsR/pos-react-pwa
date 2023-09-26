@@ -5,7 +5,6 @@ const ButtonComponent = ({ label, style, variant, uppercase, ...rest }) => {
                 {...rest}
                 variant={variant} 
                 style={{
-                    width: rest.fullWidth ? 'calc(100% - 16px)' : 'auto',
                     textTransform: uppercase ? 'uppercase' : 'none',
                     padding: 8,
                     ...style

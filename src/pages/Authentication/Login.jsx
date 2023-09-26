@@ -1,5 +1,5 @@
 import { Button, TextField, Box, AuthTop, Stack } from "../../components"
-import { login, verifyLogin } from "../../utils/auth";
+import { login, resendEmail, verifyLogin } from "../../utils/auth";
 
 import { useState } from "react";
 import { useEffect } from "react";
@@ -9,8 +9,9 @@ import { InputAdornment } from "@mui/material";
 import { AccountCircleOutlined, LockOutlined } from "@material-ui/icons";
 
 
-const Login = ({ setCurrentPath, logoutRoutes }) => {
+const Login = ({ setCurrentPath, logoutRoutes, firebaseApp }) => {
     const navigate = useNavigate();
+    const [showResendEmail, setShowResendEmail] = useState(false);
 
     useEffect(() => {
         setCurrentPath(window.location.pathname);
@@ -18,13 +19,14 @@ const Login = ({ setCurrentPath, logoutRoutes }) => {
     }, [])
 
     const [email, setEmail] = useState("");
-    const [senha, setSenha] = useState("");
+    const [password, setPassword] = useState("");
 
-    function entrarNoApp() {
-        console.log(email);
-        console.log(senha);
+    async function entrarNoApp() {
+        await login(firebaseApp, {email, password}, navigate, setShowResendEmail);
+    }
 
-        login({email, senha}, navigate);
+    async function _resendEmail() {
+        await resendEmail(firebaseApp, {email, password}, setShowResendEmail);
     }
 
     return <>
@@ -32,14 +34,17 @@ const Login = ({ setCurrentPath, logoutRoutes }) => {
         <Box
             component="div"
             sx={{ mt: 3, mb: 3, pl: 4, pr: 4 }}
-            noValidate ="true"
+            noValidate={true}
             autoComplete="off"
         >
                 <TextField 
                     InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <AccountCircleOutlined />
+                            <AccountCircleOutlined  
+                                style={{
+                                color: '#333'
+                                }}/>
                           </InputAdornment>
                         ),
                       }}
@@ -50,27 +55,46 @@ const Login = ({ setCurrentPath, logoutRoutes }) => {
 
         <Box
             component="div"
-            sx={{ mt: 3, mb: 3, pl: 4, pr: 4 }}
-            noValidate ="true"
+            sx={{ mt: 3, mb: 1, pl: 4, pr: 4 }}
+            noValidate={true}
             autoComplete="off"
         >
             <TextField 
                 InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <LockOutlined />
+                        <LockOutlined 
+                            style={{
+                                color: '#333'
+                            }} />
                       </InputAdornment>
                     ),
                   }}
-                variant={"filled"} fullWidth={true} label={"Senha"} value={senha} type={"password"} onChange={(e) => {
-                setSenha(e.target.value);
+                variant={"filled"} fullWidth={true} label={"Senha"} value={password} type={"password"} onChange={(e) => {
+                setPassword(e.target.value);
             }}/>
         </Box>
         
         <Box
             component="div"
+            sx={{ mt: 0, mb: 0, pl: 4, pr: 4 }}
+            noValidate={true}
+            autoComplete="off"
+        >
+            <Stack sx={{ mt: 0, mb: 0 }} alignItems={'end'}>
+                <Link style={{
+                    color: '#333',
+                    textDecoration: 'none',
+                    fontWeight: '200 !important',
+                    fontSize: 16
+                }} to={"/recovery-password"}>Esqueceu a senha?</Link>
+            </Stack>
+        </Box>        
+        
+        <Box
+            component="div"
             sx={{ mt: 3, mb: 3, pl: 4, pr: 4 }}
-            noValidate ="true"
+            noValidate={true}
             autoComplete="off"
         >
             <Button
@@ -80,6 +104,22 @@ const Login = ({ setCurrentPath, logoutRoutes }) => {
                 onClick={entrarNoApp}
                 uppercase={true}/>
         </Box>
+        { showResendEmail ? 
+            <Box
+            component="div"
+            sx={{ mt: 3, mb: 3, pl: 4, pr: 4 }}
+            noValidate={true}
+            autoComplete="off"
+            >
+                <Button
+                    startIcon={<LoginIcon sx={{ color: '#fff'}}/>} 
+                    fullWidth={true}
+                    label={"Reenviar e-mail"}
+                    onClick={_resendEmail}
+                    uppercase={true}/>
+            </Box> 
+            : null}
+        
         <Stack sx={{ mt: 4, mb: 4 }} alignItems={'center'}>
             <Link style={{
                 color: '#333',

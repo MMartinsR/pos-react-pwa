@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { verifyLogin, logout } from "../../utils/auth";
 import { Button, Top } from "../../components";
 
-const Settings = ({ setCurrentPath, logoutRoutes }) => {
+const Settings = ({ setCurrentPath, logoutRoutes, firebaseApp }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -12,7 +12,7 @@ const Settings = ({ setCurrentPath, logoutRoutes }) => {
     }, [])
     return <>
         <Top hasMenu={true} hasImage={true} title={'Configurações'} subtitle={'Configurações do app...'}/>
-        <Button label={"Sair"} onClick={() => logout(navigate)}/>
+        <Button label={"Sair"} onClick={() => logout(firebaseApp, navigate)}/>
     </>;
 }
 
