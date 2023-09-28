@@ -9,87 +9,87 @@ import { InputAdornment } from "@mui/material";
 import { AccountCircleOutlined, LockOutlined } from "@material-ui/icons";
 
 
-const Register = ({ setCurrentPath, logoutRoutes, firebaseApp }) => {
-    const navigate = useNavigate();    
+const Register = ( { setCurrentPath, logoutRoutes, firebaseApp } ) => {
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        setCurrentPath(window.location.pathname);
-        verifyLogin(logoutRoutes, window.location.pathname, navigate);
-    }, [])
+    useEffect( () => {
+        setCurrentPath( window.location.pathname );
+        verifyLogin( logoutRoutes, window.location.pathname, navigate, firebaseApp );
+    }, [] )
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [ email, setEmail ] = useState( "" );
+    const [ password, setPassword ] = useState( "" );
 
-    async function cadastrarNoApp() {
-        await register(firebaseApp, {email, password}, navigate);
+    async function cadastrarNoApp () {
+        await register( firebaseApp, { email, password }, navigate );
     }
 
     return <>
-        <AuthTop title_page={"Cadastro"} subtitle_page={"Cadastre-se no app..."}/>
+        <AuthTop title_page={ "Cadastro" } subtitle_page={ "Cadastre-se no app..." } />
         <Box
             component="div"
-            sx={{ mt: 3, mb: 3, pl: 4, pr: 4 }}
-            noValidate={true}
+            sx={ { mt: 3, mb: 3, pl: 4, pr: 4 } }
+            noValidate={ true }
             autoComplete="off"
         >
-                <TextField 
-                    InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <AccountCircleOutlined 
-                                style={{
-                                color: '#333'
-                                }}/>
-                          </InputAdornment>
-                        ),
-                      }}
-                    variant={"filled"} fullWidth={true} label={"Email"} value={email} type={"email"} onChange={(e) => {
-                setEmail(e.target.value);
-                }}/>
+            <TextField
+                InputProps={ {
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <AccountCircleOutlined
+                                style={ {
+                                    color: '#333'
+                                } } />
+                        </InputAdornment>
+                    ),
+                } }
+                variant={ "filled" } fullWidth={ true } label={ "Email" } value={ email } type={ "email" } onChange={ ( e ) => {
+                    setEmail( e.target.value );
+                } } />
         </Box>
 
         <Box
             component="div"
-            sx={{ mt: 3, mb: 3, pl: 4, pr: 4 }}
-            noValidate={true}
+            sx={ { mt: 3, mb: 3, pl: 4, pr: 4 } }
+            noValidate={ true }
             autoComplete="off"
         >
-            <TextField 
-                InputProps={{
+            <TextField
+                InputProps={ {
                     startAdornment: (
-                      <InputAdornment position="start">
-                        <LockOutlined 
-                            style={{
-                            color: '#333'
-                            }}/> 
-                      </InputAdornment>
+                        <InputAdornment position="start">
+                            <LockOutlined
+                                style={ {
+                                    color: '#333'
+                                } } />
+                        </InputAdornment>
                     ),
-                  }}
-                variant={"filled"} fullWidth={true} label={"Senha"} value={password} type={"password"} onChange={(e) => {
-                setPassword(e.target.value);
-            }}/>
+                } }
+                variant={ "filled" } fullWidth={ true } label={ "Senha" } value={ password } type={ "password" } onChange={ ( e ) => {
+                    setPassword( e.target.value );
+                } } />
         </Box>
-        
+
         <Box
             component="div"
-            sx={{ mt: 3, mb: 3, pl: 4, pr: 4 }}
-            noValidate={true}
+            sx={ { mt: 3, mb: 3, pl: 4, pr: 4 } }
+            noValidate={ true }
             autoComplete="off"
         >
             <Button
-                startIcon={<LoginIcon sx={{ color: '#fff'}}/>} 
-                fullWidth={true}
-                label={"Cadastrar"}
-                onClick={cadastrarNoApp}
-                uppercase={true}/>
+                startIcon={ <LoginIcon sx={ { color: '#fff' } } /> }
+                fullWidth={ true }
+                label={ "Cadastrar" }
+                onClick={ cadastrarNoApp }
+                uppercase={ true } />
         </Box>
-        <Stack sx={{ mt: 4, mb: 4 }} alignItems={'center'}>
-            <Link style={{
+        <Stack sx={ { mt: 4, mb: 4 } } alignItems={ 'center' }>
+            <Link style={ {
                 color: '#333',
                 textDecoration: 'none',
                 fontWeight: '200 !important',
                 fontSize: 16
-            }} to={"/login"}>Entrar</Link>
+            } } to={ "/login" }>Entrar</Link>
         </Stack>
 
     </>
